@@ -1,5 +1,8 @@
-﻿using Microsoft.Extensions.Logging;
-using PluginInterface;
+﻿using PluginInterface;
+using Microsoft.Extensions.Logging;
+using System.Reflection.Metadata;
+using System.Runtime.InteropServices;
+using System.Text;
 
 namespace CNC.Fanuc
 {
@@ -21,10 +24,9 @@ namespace CNC.Fanuc
         [ConfigParameter("设备Ip")] public string DeviceIp { get; set; } = "127.0.0.1";
         [ConfigParameter("设备Port")] public int DevicePort { get; set; } = 8193;
 
-        #endregion 配置参数
+        #endregion
 
         #region 生命周期
-
         public DeviceFanuc(string device, ILogger logger)
         {
             _device = device;
@@ -90,10 +92,10 @@ namespace CNC.Fanuc
             // Suppress finalization.
             GC.SuppressFinalize(this);
         }
-
-        #endregion 生命周期
+        #endregion
 
         #region 读写方法
+
 
         [Method("Fanuc", description: "读Fanuc设备类型")]
         public DriverReturnValueModel ReadDeviceType(DriverAddressIoArgModel ioarg)
@@ -156,55 +158,41 @@ namespace CNC.Fanuc
                                     case 0:
                                         strRet = "STOP";
                                         break;
-
                                     case 1:
                                         strRet = "HOLD";
                                         break;
-
                                     case 2:
                                         strRet = "START";
                                         break;
-
                                     case 3:
                                         strRet = "MSTR(jog mdi)";
                                         break;
-
                                     case 4:
                                         strRet = "ReSTART(not blinking)";
                                         break;
-
                                     case 5:
                                         strRet = "PRSR(program restart)";
                                         break;
-
                                     case 6:
                                         strRet = "NSRC(sequence number search)";
                                         break;
-
                                     case 7:
                                         strRet = "ReSTART(blinking)";
                                         break;
-
                                     case 8:
                                         strRet = "ReSET";
                                         break;
-
                                     case 9:
                                         break;
-
                                     case 10:
                                         break;
-
                                     case 11:
                                         break;
-
                                     case 12:
                                         break;
-
                                     case 13:
                                         strRet = "HPCC(during RISC operation)";
                                         break;
-
                                     default:
                                         break;
                                 }
@@ -216,23 +204,18 @@ namespace CNC.Fanuc
                                     case 0:
                                         strRet = "NOT READY";
                                         break;
-
                                     case 1:
                                         strRet = "M-READY";
                                         break;
-
                                     case 2:
                                         strRet = "C-START";
                                         break;
-
                                     case 3:
                                         strRet = "F-HOLD";
                                         break;
-
                                     case 4:
                                         strRet = "B-STOP";
                                         break;
-
                                     default:
                                         break;
                                 }
@@ -244,28 +227,24 @@ namespace CNC.Fanuc
                                     case 0:
                                         strRet = "****(reset)";
                                         break;
-
                                     case 1:
                                         strRet = "STOP";
                                         break;
-
                                     case 2:
                                         strRet = "HOLD";
                                         break;
-
                                     case 3:
                                         strRet = "STaRT";
                                         break;
-
                                     case 4:
                                         strRet =
                                             "MSTR(during retraction and re-positioning of tool retraction and recovery, and operation of JOG MDI)";
                                         break;
-
                                     default:
                                         break;
                                 }
                             }
+
 
                             ret.Value = strRet;
                         }
@@ -315,55 +294,41 @@ namespace CNC.Fanuc
                                     case 0:
                                         strRet = "STOP";
                                         break;
-
                                     case 1:
                                         strRet = "HOLD";
                                         break;
-
                                     case 2:
                                         strRet = "STaRT";
                                         break;
-
                                     case 3:
                                         strRet = "MSTR(jog mdi)";
                                         break;
-
                                     case 4:
                                         strRet = "ReSTaRt(not blinking)";
                                         break;
-
                                     case 5:
                                         strRet = "PRSR(program restart)";
                                         break;
-
                                     case 6:
                                         strRet = "NSRC(sequence number search)";
                                         break;
-
                                     case 7:
                                         strRet = "ReSTaRt(blinking)";
                                         break;
-
                                     case 8:
                                         strRet = "ReSET";
                                         break;
-
                                     case 9:
                                         break;
-
                                     case 10:
                                         break;
-
                                     case 11:
                                         break;
-
                                     case 12:
                                         break;
-
                                     case 13:
                                         strRet = "HPCC(during RISC operation)";
                                         break;
-
                                     default:
                                         break;
                                 }
@@ -375,23 +340,18 @@ namespace CNC.Fanuc
                                     case 0:
                                         strRet = "NOT READY";
                                         break;
-
                                     case 1:
                                         strRet = "M-READY";
                                         break;
-
                                     case 2:
                                         strRet = "C-START";
                                         break;
-
                                     case 3:
                                         strRet = "F-HOLD";
                                         break;
-
                                     case 4:
                                         strRet = "B-STOP";
                                         break;
-
                                     default:
                                         strRet = runRet.ToString();
                                         break;
@@ -404,29 +364,25 @@ namespace CNC.Fanuc
                                     case 0:
                                         strRet = "****(reset)";
                                         break;
-
                                     case 1:
                                         strRet = "STOP";
                                         break;
-
                                     case 2:
                                         strRet = "HOLD";
                                         break;
-
                                     case 3:
                                         strRet = "STaRT";
                                         break;
-
                                     case 4:
                                         strRet =
                                             "MSTR(during retraction and re-positioning of tool retraction and recovery, and operation of JOG MDI)";
                                         break;
-
                                     default:
                                         strRet = runRet.ToString();
                                         break;
                                 }
                             }
+
 
                             ret.Value = strRet;
                         }
@@ -447,7 +403,7 @@ namespace CNC.Fanuc
             return ret;
         }
 
-        //操作模式      cnc_statinfo    manual
+        //操作模式      cnc_statinfo    manual              
         //存在问题，未找到manual
         [Method("Fanuc", description: "读Fanuc设备操作模式")]
         public DriverReturnValueModel ReadDeviceModel(DriverAddressIoArgModel ioarg)
@@ -468,6 +424,7 @@ namespace CNC.Fanuc
                         ret.Value = manualRet;
                     }
                 }
+
                 catch (Exception ex)
                 {
                     ret.StatusType = VaribaleStatusTypeEnum.Bad;
@@ -478,6 +435,183 @@ namespace CNC.Fanuc
             {
                 ret.StatusType = VaribaleStatusTypeEnum.Bad;
                 ret.Message = "连接失败";
+            }
+
+            return ret;
+        }
+
+        //操作模式      cnc_statinfo    manual              
+        //存在问题，未找到manual
+        [Method("Fanuc", description: "读Fanuc宏变量")]
+        public DriverReturnValueModel ReadHongNew(DriverAddressIoArgModel ioarg)
+        {
+            var ret = new DriverReturnValueModel { StatusType = VaribaleStatusTypeEnum.Good };
+
+            if (IsConnected)
+            {
+                try
+                {
+
+
+                    short number = Convert.ToInt16(ioarg.Address);   //registerAddr == number
+                    Focas1.ODBM odbm = new Focas1.ODBM();
+                    short res = Focas1.cnc_rdmacro(_hndl, number, 10, odbm);
+                    if (res == FanucFocas.EW_OK)
+                    {
+
+                        ret.Value = (Math.Pow(10, -odbm.dec_val) * odbm.mcr_val).ToString();
+                    }
+                }
+
+                catch (Exception ex)
+                {
+                    ret.StatusType = VaribaleStatusTypeEnum.Bad;
+                    ret.Message = $"读取失败,{ex.Message}";
+                }
+            }
+            else
+            {
+                ret.StatusType = VaribaleStatusTypeEnum.Bad;
+                ret.Message = "连接失败";
+            }
+
+            return ret;
+        }
+
+        //操作模式      cnc_statinfo    manual              
+        //存在问题，未找到manual
+        [Method("Fanuc", description: "读Fanuc寄存器")]
+        public DriverReturnValueModel ReadStringNew(DriverAddressIoArgModel ioarg)
+        {
+            var ret = new DriverReturnValueModel { StatusType = VaribaleStatusTypeEnum.Good };
+
+            if (IsConnected)
+            {
+                try
+                {
+                    short AddrNum = Convert.ToInt16(ioarg.Address.Split(',')[1]);
+                    byte[] valueReceive = new byte[AddrNum];
+                    short number = Convert.ToInt16(ioarg.Address.Split(',')[0]);   //registerAddr == number
+                    int iSizeConst = 2;//在委托代码和非委托代码之间传送的数据长度
+                    int iSingle = AddrNum % iSizeConst;
+                    int iLoop = iSingle == 0 ? AddrNum / iSizeConst : AddrNum / iSizeConst + 1;
+
+                    ushort start = 0;
+                    ushort end = 0;
+                    // IODBPMC0结构体大小：头部8字节 + 数据部分5字节 = 13字节
+                    // 但实际读取的数据长度是变化的，f参数应该是8 + 实际读取的字节数
+                    ushort f = (ushort)(8 + iSizeConst);
+                    for (int i = 0; i < iLoop; i++)
+                    {
+                        int newregisterAddr = number + i * iSizeConst;
+                        int actualReadSize = iSizeConst;
+                        if (iSingle == 0)
+                        {
+                            start = Convert.ToUInt16(newregisterAddr);
+                            end = Convert.ToUInt16(newregisterAddr + iSizeConst - 1);
+                            f = (ushort)(8 + iSizeConst);
+                        }
+                        else if (i == iLoop - 1)
+                        {
+                            start = Convert.ToUInt16(newregisterAddr);
+                            end = Convert.ToUInt16(newregisterAddr + iSingle - 1);
+                            actualReadSize = iSingle;
+                            f = (ushort)(8 + iSingle);
+                        }
+                        else
+                        {
+                            start = Convert.ToUInt16(newregisterAddr);
+                            end = Convert.ToUInt16(newregisterAddr + iSizeConst - 1);
+                            f = (ushort)(8 + iSizeConst);
+                        }
+
+                        Focas1.IODBPMC0 iodbpmc0 = new Focas1.IODBPMC0();
+                        // 确保cdata数组被初始化
+                        if (iodbpmc0.cdata == null)
+                        {
+                            iodbpmc0.cdata = new byte[5];
+                        }
+                        
+                        int res;
+                        res = Focas1.pmc_rdpmcrng(_hndl, 9, 0, start, end, f, iodbpmc0);
+                        if (res == Focas1.EW_OK)
+                        {
+                            // 检查cdata是否为空
+                            if (iodbpmc0.cdata == null || iodbpmc0.cdata.Length == 0)
+                            {
+                                ret.StatusType = VaribaleStatusTypeEnum.Bad;
+                                ret.Message = $"读取失败: cdata为空";
+                                _logger?.LogWarning($"ReadStringNew: cdata为空, start={start}, end={end}, f={f}");
+                                break;
+                            }
+                            
+                            var bytesToCopy = Math.Min(actualReadSize, iodbpmc0.cdata.Length);
+                            for (int j = 0; j < bytesToCopy; j++)
+                            {
+                                var targetIndex = i * iSizeConst + j;
+                                if (targetIndex >= valueReceive.Length) break;
+                                valueReceive[targetIndex] = iodbpmc0.cdata[j];
+                            }
+                            
+                            _logger?.LogDebug($"ReadStringNew: 读取成功, start={start}, end={end}, 读取字节数={bytesToCopy}, 数据={BitConverter.ToString(iodbpmc0.cdata, 0, bytesToCopy)}");
+                        }
+                        else
+                        {
+                            ret.StatusType = VaribaleStatusTypeEnum.Bad;
+                            ret.Message = $"读取失败,错误码:{res}";
+                            _logger?.LogWarning($"ReadStringNew: pmc_rdpmcrng失败, start={start}, end={end}, f={f}, 错误码={res}");
+                            break;
+                        }
+                    }
+
+                    // 无论成功还是失败，都将字节数组转换为字符串
+                    var rawString = Encoding.ASCII.GetString(valueReceive).TrimEnd('\0', ' ');
+                    
+                    if (ret.StatusType == VaribaleStatusTypeEnum.Good)
+                    {
+                        ret.CookedValue = rawString;
+                        ret.Value = rawString;
+                        _logger?.LogDebug($"ReadStringNew: 最终结果, 地址={ioarg.Address}, 值={rawString}");
+                    }
+                    else
+                    {
+                        // 即使失败，也返回字符串格式，而不是字节数组
+                        ret.Value = rawString;
+                        ret.CookedValue = rawString;
+                    }
+                }
+
+                catch (Exception ex)
+                {
+                    ret.StatusType = VaribaleStatusTypeEnum.Bad;
+                    ret.Message = $"读取失败,{ex.Message}";
+                    // 确保返回字符串而不是字节数组
+                    try
+                    {
+                        byte[] valueReceive = new byte[0];
+                        if (ioarg.Address.Contains(','))
+                        {
+                            short AddrNum = Convert.ToInt16(ioarg.Address.Split(',')[1]);
+                            valueReceive = new byte[AddrNum];
+                        }
+                        ret.Value = Encoding.ASCII.GetString(valueReceive).TrimEnd('\0', ' ');
+                        ret.CookedValue = ret.Value;
+                    }
+                    catch
+                    {
+                        ret.Value = string.Empty;
+                        ret.CookedValue = string.Empty;
+                    }
+                    _logger?.LogError(ex, $"ReadStringNew异常, 地址={ioarg.Address}");
+                }
+            }
+            else
+            {
+                ret.StatusType = VaribaleStatusTypeEnum.Bad;
+                ret.Message = "连接失败";
+                // 确保返回字符串而不是字节数组
+                ret.Value = string.Empty;
+                ret.CookedValue = string.Empty;
             }
 
             return ret;
@@ -500,6 +634,7 @@ namespace CNC.Fanuc
                         ret.Value = a.data;
                     }
                 }
+
                 catch (Exception ex)
                 {
                     ret.StatusType = VaribaleStatusTypeEnum.Bad;
@@ -532,6 +667,7 @@ namespace CNC.Fanuc
                         ret.Value = a.data;
                     }
                 }
+
                 catch (Exception ex)
                 {
                     ret.StatusType = VaribaleStatusTypeEnum.Bad;
@@ -694,83 +830,63 @@ namespace CNC.Fanuc
                             case 0:
                                 alarmStrType = "Parameter switch on";
                                 break;
-
                             case 1:
                                 alarmStrType = "Power off parameter set";
                                 break;
-
                             case 2:
                                 alarmStrType = "I/O error";
                                 break;
-
                             case 3:
                                 alarmStrType = "Foreground P/S";
                                 break;
-
                             case 4:
                                 alarmStrType = "Overtravel,External data";
                                 break;
-
                             case 5:
                                 alarmStrType = "Overheat alarm";
                                 break;
-
                             case 6:
                                 alarmStrType = "Servo alarm";
                                 break;
-
                             case 7:
                                 alarmStrType = "Data I/O error";
                                 break;
-
                             case 8:
                                 alarmStrType = "Macro alarm";
                                 break;
-
                             case 9:
                                 alarmStrType = "Macro alarm";
                                 break;
-
                             case 10:
                                 alarmStrType = "Other alarm(DS)";
                                 break;
-
                             case 11:
                                 alarmStrType = "Alarm concerning Malfunction prevent functions (IE) ";
                                 break;
-
                             case 12:
                                 alarmStrType = "Background P/S (BG) ";
                                 break;
-
                             case 13:
                                 alarmStrType = "Syncronized error (SN) ";
                                 break;
-
                             case 14:
                                 alarmStrType = "(reserved)";
                                 break;
-
                             case 15:
                                 alarmStrType = "External alarm message (EX) ";
                                 break;
-
                             case 16:
                                 alarmStrType = "(reserved)";
                                 break;
-
                             case 17:
                                 alarmStrType = "(reserved)";
                                 break;
-
                             case 18:
                                 alarmStrType = "(reserved)";
                                 break;
-
                             case 19:
                                 alarmStrType = "PMC error (PC) ";
                                 break;
-
                             case -1:
                                 alarmStrType = "All type";
                                 break;
@@ -1047,6 +1163,7 @@ namespace CNC.Fanuc
             return ret;
         }
 
+
         /// <summary>
         /// 无用方法
         /// </summary>
@@ -1071,7 +1188,7 @@ namespace CNC.Fanuc
             await Task.CompletedTask;
             return rpcResponse;
         }
+        #endregion
 
-        #endregion 读写方法
     }
 }

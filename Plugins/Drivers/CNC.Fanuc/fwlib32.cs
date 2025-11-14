@@ -2,7 +2,7 @@
 
 namespace CNC.Fanuc
 {
-    public class Focas1
+    public class Focas32
     {
         /* Axis define */
 #if FS30D
