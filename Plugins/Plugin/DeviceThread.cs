@@ -231,26 +231,11 @@ namespace Plugin
 
                 if (ret.StatusType == VaribaleStatusTypeEnum.Good && !string.IsNullOrWhiteSpace(item.Expressions?.Trim()))
                 {
-                    var expressionText = DealMysqlStr(item.Expressions)
-                        .Replace("raw",
-                            item.Values[0] is bool
-                                ? $"Convert.ToBoolean(\"{item.Values[0]}\")"
-                                : item.Values[0]?.ToString())
-                        .Replace("$v",
-                            item.Values[0] is bool
-                                ? $"Convert.ToBoolean(\"{item.Values[0]}\")"
-                                : item.Values[0]?.ToString())
-                        .Replace("$pv",
-                            item.Values[1] is bool
-                                ? $"Convert.ToBoolean(\"{item.Values[1]}\")"
-                                : item.Values[1]?.ToString())
-                        .Replace("$ppv",
-                            item.Values[2] is bool
-                                ? $"Convert.ToBoolean(\"{item.Values[2]}\")"
-                                : item.Values[2]?.ToString());
-
+                    var expressionText = string.Empty;
                     try
                     {
+                        expressionText = item.Expressions.GetExpressionText(item.Values,
+                            variables.DistinctBy(x => x.Name).ToDictionary(x => x.Name, x => x.Value));
                         ret.CookedValue = _interpreter!.Eval(expressionText);
                     }
                     catch (Exception)
@@ -402,15 +387,6 @@ namespace Plugin
             _tokenSource.Dispose();
             _resetEvent.Dispose();
             _logger.LogInformation($"线程释放,{Device.DeviceName}");
-        }
-
-        // 处理 MySQL 转义符问题
-        private string DealMysqlStr(string expression)
-        {
-            return expression.Replace("&lt;", "<")
-                             .Replace("&gt;", ">")
-                             .Replace("&amp;", "&")
-                             .Replace("&quot;", "\"");
         }
     }
 }
